@@ -22,7 +22,7 @@ export default function ReviewForm({ listingId, onSuccess }) {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/reviews/${listingId}`,
+        `/api/reviews/${listingId}`,
         {
           userId: user.id,   
           rating,

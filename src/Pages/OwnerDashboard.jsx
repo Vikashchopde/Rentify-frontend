@@ -44,7 +44,7 @@ export default function OwnerDashboard() {
 
         const res =
           await axios.get(
-            "http://localhost:5000/api/listings",
+            `/api/listings`,
             {
               params: {
                 owner:
@@ -88,7 +88,7 @@ export default function OwnerDashboard() {
 
       try {
         await axios.delete(
-          `http://localhost:5000/api/listings/${id}`,
+          `/api/listings/${id}`,
           {
             withCredentials: true,
           }
@@ -116,7 +116,7 @@ export default function OwnerDashboard() {
     };
 
   const totalViews =
-    listings.reduce(
+    (Array.isArray(listings) ? listings : []).reduce(
       (
         a,
         b
@@ -279,7 +279,7 @@ export default function OwnerDashboard() {
         {/* ================= EMPTY ================= */}
         {!loading &&
           listings.length ===
-            0 && (
+          0 && (
             <div
               className="
               bg-white
@@ -341,10 +341,8 @@ export default function OwnerDashboard() {
           gap-8
         "
         >
-          {listings.map(
-            (
-              item
-            ) => (
+          {Array.isArray(listings) &&
+            listings.map((item) => (
               <div
                 key={
                   item._id
@@ -485,7 +483,7 @@ export default function OwnerDashboard() {
                 </div>
               </div>
             )
-          )}
+            )}
         </div>
       </div>
     </div>

@@ -158,7 +158,7 @@ export default function Chat() {
 
           const res =
             await axios.get(
-              `/chat/conversations/${userId}`,
+              `/api/chat/conversations/${userId}`,
               {
                 withCredentials: true,
               }
@@ -252,7 +252,7 @@ export default function Chat() {
 
       const res =
         await axios.get(
-          `/chat/messages/${chat._id}`,
+          `/api/chat/messages/${chat._id}`,
           {
             withCredentials: true,
           }
@@ -448,7 +448,7 @@ export default function Chat() {
         );
 
         await axios.post(
-          "/chat/message",
+          "/api/chat/message",
           tempMessage,
           {
             withCredentials: true,

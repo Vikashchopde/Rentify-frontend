@@ -21,7 +21,7 @@ export default function SignUp() {
 
   const handleRegister = async () => {
     try {
-      const res = await axios.post("/auth/register", form);
+      const res = await axios.post("/api/auth/register", form);
 
       toast.success("Registration successful!");
       navigate("/signin");

@@ -15,7 +15,7 @@ export default function Wishlist() {
         // 1️⃣ Get wishlist IDs
         if (!user) return;
         const res = await axios.get(
-          "http://localhost:5000/api/wishlist",
+          `/api/wishlist`,
           {
             withCredentials: true,
           }
@@ -31,7 +31,7 @@ export default function Wishlist() {
 
         // 2️⃣ Fetch full listing details
         const roomRes = await axios.post(
-          "http://localhost:5000/api/wishlist/by-ids",
+          `/api/wishlist/by-ids`,
           {
             ids,
           },

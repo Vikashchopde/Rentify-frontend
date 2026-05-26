@@ -71,7 +71,7 @@ export default function OwnerProfile() {
         try {
           const res =
             await axios.get(
-              `/owner/${ownerId}`
+              `/api/owner/${ownerId}`
             );
 
           setOwner(
@@ -79,10 +79,7 @@ export default function OwnerProfile() {
               .owner
           );
 
-          setRooms(
-            res.data
-              .listings
-          );
+          setRooms(res.data?.listings || []);
 
           setForm({
             name:
@@ -153,7 +150,7 @@ export default function OwnerProfile() {
       try {
         const res =
           await axios.put(
-            `/owner/${ownerId}`,
+            `/api/owner/${ownerId}`,
             form,
             {
               withCredentials: true,

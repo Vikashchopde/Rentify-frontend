@@ -8,8 +8,17 @@ import axios from "axios";
 import App from "./App";
 import "./index.css";
 
-axios.defaults.baseURL = "http://localhost:5000/api"; 
+// axios.defaults.baseURL = "http://localhost:5000/api"; 
+// axios.defaults.withCredentials = true;
+// axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+// axios.defaults.withCredentials = true;
+// console.log(import.meta.env.VITE_API_URL);
+
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.defaults.withCredentials = true;
+
+console.log("ENV URL:", import.meta.env.VITE_API_URL);
+console.log("ALL ENV:", import.meta.env);
 
 
 

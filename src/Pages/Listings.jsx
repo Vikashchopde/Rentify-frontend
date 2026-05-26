@@ -87,7 +87,7 @@ export default function Listing() {
       setLoading(true);
 
       const res = await axios.get(
-        `http://localhost:5000/api/listings/${id}`,
+        `/api/listings/${id}`,
         {
           params: {
             viewer: userId,
@@ -203,7 +203,7 @@ const startChat = async () => {
 
     const res =
       await axios.post(
-        "/chat/start",
+        `/api/chat/start`,
         {
           userId,
 

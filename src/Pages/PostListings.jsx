@@ -59,7 +59,7 @@ export default function PostListing() {
       if (video) formData.append("video", video);
 
       await axios.post(
-        "http://localhost:5000/api/listings",
+        `/api/listings`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

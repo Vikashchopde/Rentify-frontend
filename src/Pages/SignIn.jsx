@@ -21,7 +21,7 @@ export default function SignIn() {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `/api/auth/login`,
         form,
         {
           withCredentials: true,

@@ -19,7 +19,7 @@ export default function Search() {
   const fetchListings = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/listings", {
+      const res = await axios.get(`/api/listings`, {
         params: {
           category,
           city,
@@ -48,7 +48,7 @@ export default function Search() {
     }, 400); // Smooth UX delay
 
     return () => clearTimeout(delay);
-  }, [city, area, minPrice, maxPrice,category]);
+  }, [city, area, minPrice, maxPrice, category]);
 
 
 
@@ -61,8 +61,8 @@ export default function Search() {
       <div className="bg-white shadow-sm border rounded-xl p-6 mb-10">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
 
-         {/* Category */}
-         <select
+          {/* Category */}
+          <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             className="border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
@@ -129,9 +129,10 @@ export default function Search() {
         </p>
       ) : (
         <div className="flex flex-wrap gap-6">
-          {listings.map((item) => (
-            <RoomCard key={item._id} item={item} />
-          ))}
+          {Array.isArray(listings) &&
+            listings.map((item) => (
+              <RoomCard key={item._id} item={item} />
+            ))}
         </div>
       )}
     </div>

@@ -9,7 +9,7 @@ export default function ReviewList({ reviews, listingId, loggedUser, onSuccess }
 
   const deleteReview = async (reviewId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/reviews/${listingId}/${reviewId}`);
+      await axios.delete(`/api/reviews/${listingId}/${reviewId}`);
       toast.success("Review deleted!");
       onSuccess();
     } catch (err) {
@@ -20,7 +20,7 @@ export default function ReviewList({ reviews, listingId, loggedUser, onSuccess }
   const updateReview = async (reviewId) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/reviews/${listingId}/${reviewId}`,
+        `/api/reviews/${listingId}/${reviewId}`,
         { rating: editRating, comment: editComment }
       );
 

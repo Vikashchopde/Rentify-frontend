@@ -19,10 +19,12 @@ export default function Home() {
   const fetchLatest = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/listings?limit=6"
+        `/api/listings?limit=6`
       );
 
-      setListings(res.data);
+      console.log(res.data);
+
+      setListings(res.data?.listings || res.data || []);
     } catch (err) {
       console.error(
         "Error fetching latest listings:",
@@ -181,14 +183,14 @@ export default function Home() {
           </p>
         ) : (
           <div className="flex flex-wrap gap-8 justify-center">
-            {listings.map(
-              (item) => (
+            {Array.isArray(listings) &&
+              listings.map((item) => (
                 <RoomCard
                   key={item._id}
                   item={item}
                 />
               )
-            )}
+              )}
           </div>
         )}
       </section>
@@ -301,30 +303,30 @@ export default function Home() {
       {/* ================= CTA ================= */}
       {user?.role ===
         "owner" && (
-        <section className="max-w-7xl mx-auto px-6 py-10">
+          <section className="max-w-7xl mx-auto px-6 py-10">
 
-          <div className="bg-blue-700 rounded-[30px] p-12 text-white flex flex-wrap justify-between items-center gap-6">
+            <div className="bg-blue-700 rounded-[30px] p-12 text-white flex flex-wrap justify-between items-center gap-6">
 
-            <div>
-              <h2 className="text-4xl font-bold">
-                Post Your Property
-              </h2>
+              <div>
+                <h2 className="text-4xl font-bold">
+                  Post Your Property
+                </h2>
 
-              <p className="text-blue-100 mt-4">
-                Reach thousands of
-                renters instantly.
-              </p>
+                <p className="text-blue-100 mt-4">
+                  Reach thousands of
+                  renters instantly.
+                </p>
+              </div>
+
+              <Link
+                to="/post"
+                className="bg-white text-blue-700 px-8 py-4 rounded-2xl font-bold hover:bg-gray-200 transition"
+              >
+                Post Listing
+              </Link>
             </div>
-
-            <Link
-              to="/post"
-              className="bg-white text-blue-700 px-8 py-4 rounded-2xl font-bold hover:bg-gray-200 transition"
-            >
-              Post Listing
-            </Link>
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
       {/* ================= CITIES ================= */}
       <section className="max-w-7xl mx-auto px-6 py-20">

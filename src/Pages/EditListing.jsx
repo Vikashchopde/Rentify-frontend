@@ -13,7 +13,7 @@ export default function EditListing() {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/listings/${id}`, { withCredentials: true })
+    axios.get(`/api/listings/${id}`, { withCredentials: true })
       .then(res => {
         setTitle(res.data.listing.title);
         setCity(res.data.listing.city);
@@ -31,7 +31,7 @@ export default function EditListing() {
     images.forEach(img => formData.append("images", img));
 
     try {
-      await axios.put(`http://localhost:5000/api/listings/${id}`, formData, {
+      await axios.put(`/api/listings/${id}`, formData, {
         withCredentials: true
       });
 

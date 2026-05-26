@@ -50,7 +50,7 @@ export default function UserDashboard() {
           // 1️⃣ Get wishlist ids
           const res =
             await axios.get(
-              "http://localhost:5000/api/wishlist",
+              `/api/wishlist`,
               {
                 withCredentials: true,
               }
@@ -77,7 +77,7 @@ export default function UserDashboard() {
           // 2️⃣ Get room data
           const roomRes =
             await axios.post(
-              "http://localhost:5000/api/wishlist/by-ids",
+              `/api/wishlist/by-ids`,
               {
                 ids,
               },

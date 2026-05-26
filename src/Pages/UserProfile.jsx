@@ -57,7 +57,7 @@ export default function UserProfile() {
 
     axios
       .get(
-        `/profile/${userId}`
+        `/api/profile/${userId}`
       )
       .then(
         (res) => {
@@ -156,7 +156,7 @@ export default function UserProfile() {
 
         const res =
           await axios.put(
-            `/profile/${userId}`,
+            `/api/profile/${userId}`,
             form
           );
 

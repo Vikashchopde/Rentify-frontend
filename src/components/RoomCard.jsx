@@ -31,7 +31,7 @@ export default function RoomCard({
 
     axios
       .get(
-        "http://localhost:5000/api/wishlist",
+        `/api/wishlist`,
         {
           withCredentials: true,
         }
@@ -94,7 +94,7 @@ export default function RoomCard({
           alreadyLiked
         ) {
           await axios.post(
-            "http://localhost:5000/api/wishlist/remove",
+            `/api/wishlist/remove`,
             {
               listingId,
             },
@@ -147,7 +147,7 @@ export default function RoomCard({
         // ADD
         else {
           await axios.post(
-            "http://localhost:5000/api/wishlist/add",
+            `/api/wishlist/add`,
             {
               listingId,
             },
