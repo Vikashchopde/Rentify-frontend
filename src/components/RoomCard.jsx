@@ -1,55 +1,27 @@
-import React, {
-  useState,
-  useEffect,
-} from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import useAuth from "../context/AuthContext";
 
-export default function RoomCard({
+function RoomCard({
   item,
-  wishlistIds,
+  wishlistIds = [],
   onRemove,
 }) {
-  const { user } =
-    useAuth();
+  const { user } = useAuth();
 
   const userId =
-    user?.id;
+    user?._id || user?.id;
 
-  const [wishlist, setWishlist] =
-    useState([]);
+  const [loading, setLoading] =
+    useState(false);
 
-  // ================= FETCH WISHLIST =================
-  useEffect(() => {
-    if (
-      !user ||
-      !userId
-    )
-      return;
-
-    axios
-      .get(
-        `/api/wishlist`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        setWishlist(
-          res.data || []
-        );
-      })
-      .catch((err) => {
-        toast.error(
-          err.response
-            ?.data
-            ?.message ||
-            "Failed to fetch wishlist"
-        );
-      });
-  }, [user, userId]);
+  // ================= CHECK LIKED =================
+  const isLiked =
+    wishlistIds.includes(
+      item._id
+    );
 
   // ================= TOGGLE WISHLIST =================
   const toggleWishlist =
@@ -57,42 +29,16 @@ export default function RoomCard({
       listingId
     ) => {
       try {
-        if (
-          !userId
-        ) {
+        if (!userId) {
           return toast.error(
             "Please login to use wishlist ❤️"
           );
         }
 
-        const alreadyLiked =
-          wishlist.some(
-            (
-              item
-            ) => {
-              if (
-                typeof item ===
-                "string"
-              ) {
-                return (
-                  item ===
-                  listingId
-                );
-              }
-
-              return (
-                item.listing ===
-                  listingId ||
-                item._id ===
-                  listingId
-              );
-            }
-          );
+        setLoading(true);
 
         // REMOVE
-        if (
-          alreadyLiked
-        ) {
+        if (isLiked) {
           await axios.post(
             `/api/wishlist/remove`,
             {
@@ -103,41 +49,11 @@ export default function RoomCard({
             }
           );
 
-          if (
-            onRemove
-          ) {
+          if (onRemove) {
             onRemove(
               listingId
             );
           }
-
-          setWishlist(
-            (
-              prev
-            ) =>
-              prev.filter(
-                (
-                  item
-                ) => {
-                  if (
-                    typeof item ===
-                    "string"
-                  ) {
-                    return (
-                      item !==
-                      listingId
-                    );
-                  }
-
-                  return (
-                    item.listing !==
-                      listingId &&
-                    item._id !==
-                      listingId
-                  );
-                }
-              )
-          );
 
           toast.success(
             "Removed from wishlist"
@@ -156,57 +72,21 @@ export default function RoomCard({
             }
           );
 
-          setWishlist(
-            (
-              prev
-            ) => [
-              ...prev,
-              listingId,
-            ]
-          );
-
           toast.success(
             "Added to wishlist"
           );
         }
-      } catch (
-        err
-      ) {
+      } catch (err) {
         toast.error(
           err.response
             ?.data
             ?.message ||
             "Something went wrong"
         );
+      } finally {
+        setLoading(false);
       }
     };
-
-  // ================= CHECK LIKED =================
-  const isLiked =
-    wishlistIds
-      ? wishlistIds.includes(
-          item._id
-        )
-      : wishlist.some(
-          (w) => {
-            if (
-              typeof w ===
-              "string"
-            ) {
-              return (
-                w ===
-                item._id
-              );
-            }
-
-            return (
-              w.listing ===
-                item._id ||
-              w._id ===
-                item._id
-            );
-          }
-        );
 
   return (
     <div
@@ -226,11 +106,13 @@ export default function RoomCard({
       h-[500px]
       flex
       flex-col
+      flex-shrink-0
     "
     >
       {/* ❤️ WISHLIST */}
       <button
         type="button"
+        disabled={loading}
         onClick={() =>
           toggleWishlist(
             item._id
@@ -275,6 +157,8 @@ export default function RoomCard({
             alt={
               item.title
             }
+            loading="lazy"
+            decoding="async"
             className="
             w-full
             h-full
@@ -301,9 +185,7 @@ export default function RoomCard({
               font-semibold
             "
             >
-              {
-                item.category
-              }
+              {item.category}
             </span>
           )}
         </div>
@@ -327,9 +209,7 @@ export default function RoomCard({
               line-clamp-1
             "
             >
-              {
-                item.title
-              }
+              {item.title}
             </h3>
 
             <p
@@ -339,11 +219,7 @@ export default function RoomCard({
               text-lg
             "
             >
-              📍{" "}
-              {
-                item.city
-              }
-
+              📍 {item.city}
               {item.area &&
                 ` - ${item.area}`}
             </p>
@@ -356,12 +232,10 @@ export default function RoomCard({
               mt-5
             "
             >
-              ₹
-              {item.price}
+              ₹{item.price}
             </p>
           </div>
 
-          {/* BUTTON */}
           <button
             className="
             w-full
@@ -383,3 +257,5 @@ export default function RoomCard({
     </div>
   );
 }
+
+export default React.memo(RoomCard);

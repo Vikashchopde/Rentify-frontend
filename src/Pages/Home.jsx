@@ -145,6 +145,8 @@ export default function Home() {
             <img
               src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85"
               alt="room"
+              loading="lazy"
+              decoding="async"
               className="rounded-[30px] shadow-2xl object-cover h-[450px] w-full max-w-[520px]"
             />
           </div>
@@ -182,15 +184,16 @@ export default function Home() {
             No listings available
           </p>
         ) : (
-          <div className="flex flex-wrap gap-8 justify-center">
+          <div className="flex flex-wrap justify-center gap-8">
             {Array.isArray(listings) &&
               listings.map((item) => (
-                <RoomCard
+                <div
                   key={item._id}
-                  item={item}
-                />
-              )
-              )}
+                  className="flex-shrink-0 w-full sm:w-[47%] lg:w-[31%]"
+                >
+                  <RoomCard item={item} />
+                </div>
+              ))}
           </div>
         )}
       </section>
