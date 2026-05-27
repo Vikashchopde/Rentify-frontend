@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import useAuth from "../../context/AuthContext.jsx";
+import useAuth from "../../context/AuthContext";
 
 export default function ReviewForm({ listingId, onSuccess }) {
   const [rating, setRating] = useState("");
